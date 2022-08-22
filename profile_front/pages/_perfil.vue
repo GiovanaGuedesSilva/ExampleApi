@@ -3,29 +3,29 @@
       <b-container class="bv-example-row">
         <b-row >
           <b-col cols="12" class="d-flex justify-content-center">
-            <b-avatar v-bind:src=foto size="12rem"></b-avatar>
+            <b-avatar v-bind:src=perfil.foto size="12rem"></b-avatar>
           </b-col>
           <b-col cols="" class="bg-info  mt-2">
             <div class="text-center mb-3 title text-secundario font-weight-bold">
                 <span>@</span>{{pagina}}
             </div>
             <div class="text-center mb-3">
-              <span>{{ frase }}</span>
+              <span>{{ perfil.frase }}</span>
             </div>
             <div class="text-center mb-3">
-              <b-icon icon="geo-alt-fill" scale="1.5"></b-icon> {{ localizacao }}  
+              <b-icon icon="geo-alt-fill" scale="1.5"></b-icon> {{ perfil.localizacao }}  
             </div>
             <div class="text-center mb-3">
-              <span>{{ frase }}</span>
+              <span>{{ perfil.frase }}</span>
             </div>
           </b-col>
         </b-row>
         <b-row >
           <b-col class="text-center">           
-            <span class="font-weight-bold">Seguidores: </span>{{seguidores}}
+            <span class="font-weight-bold">Seguidores: </span>{{perfil.seguidores}}
           </b-col>
           <b-col class="text-center">
-            <span class="font-weight-bold">Seguindo: </span>{{seguindo}}
+            <span class="font-weight-bold">Seguindo: </span>{{perfil.seguindo}}
           </b-col>
         </b-row>
       </b-container>
@@ -34,7 +34,15 @@
 
 <script>
 export default {
+
+  async asyncData({$axios, $route}){
+    const idPerfil = $route.params.perfil;
+    const perfil = await $axios.get("/perfil" + idPerfil);
+    return {perfil};
+  },
+  
   name: 'PerfilPage',
+  
   data() {
     return {
       nome: "Messi Careca",
@@ -47,8 +55,8 @@ export default {
   },
   computed:{
     pagina(){
-      return this.nome.replace(" ", "").toLocaleLowerCase();
+      return this.perfil.nome.replace(" ", "").toLocaleLowerCase();
     }
   }
-}
+};
 </script>
